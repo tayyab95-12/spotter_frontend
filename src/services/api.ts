@@ -1,23 +1,17 @@
-import { SearchResult, FlightSearchParams, Airport } from '../types/index';
+import { FlightSearchParams, Airport } from '../types/index';
 
-// const API_BASE_URL = "https://sky-scrapper.p.rapidapi.com/api/v1/flights";
-// "https://sky-scrapper.p.rapidapi.com/api/v1/flights"
-
-const API_KEY = 'c416c8246emshad51108c2c1f686p171393jsnb62a03555a8a';
-const API_HOST = 'sky-scrapper.p.rapidapi.com';
-const API_BASE_URL = 'https://sky-scrapper.p.rapidapi.com/api/v1/flights';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const headers = {
-  'X-RapidAPI-Key': API_KEY,
-  'X-RapidAPI-Host': API_HOST,
+  'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
+  'X-RapidAPI-Host': import.meta.env.VITE_API_HOST,
   'Content-Type': 'application/json',
 };
 
 export const flightService = {
   async searchAirports(query: string): Promise<Airport[]> {
     try {
-      console.log("Here is the query of searchAirports    :::::::::::         ",query);
+      console.log("Here is the query of searchAirports    :::::::::::         ", query);
       const response = await fetch(
         // `${API_BASE_URL}/searchAirport?query=&locale=en-US`,
         `${API_BASE_URL}/searchAirport?query=${encodeURIComponent(query)}&locale=en-US`,
@@ -25,7 +19,7 @@ export const flightService = {
         { headers }
       );
 
-      if (!response.ok) {
+      if ( ! response.ok) {
         throw new Error('Failed to fetch airports');
       }
 
@@ -40,14 +34,14 @@ export const flightService = {
 
   // Helper method to get nearby airports using current location
   async getNearbyAirportsFromCurrentLocation(): Promise<Airport[]> {
-      try {
-        const position = await this.getCurrentLocation();
-        const { latitude, longitude } = position.coords;
-        return await this.getNearbyAirports(latitude, longitude);
-      } catch (error) {
-        console.error('Error getting nearby airports from current location:', error);
-        throw error;
-      }
+    try {
+      const position = await this.getCurrentLocation();
+      const { latitude, longitude } = position.coords;
+      return await this.getNearbyAirports(latitude, longitude);
+    } catch (error) {
+      console.error('Error getting nearby airports from current location:', error);
+      throw error;
+    }
   },
 
   async getNearbyAirports(lat: number, lng: number): Promise<Airport[]> {
@@ -60,7 +54,7 @@ export const flightService = {
       );
       console.log("Here is the Nearby Airports    ::::", response);
       // console.log("Here is the Nearby Airports  JSON  ::::", response.json());
-      if (!response.ok) {
+      if ( ! response.ok) {
         throw new Error('Failed to fetch nearby airports');
       }
 
@@ -75,7 +69,7 @@ export const flightService = {
   async searchFlights(params: FlightSearchParams): Promise<any> {
     try {
       // params.originSkyId
-      let get_params = `?originSkyId=${params.originSkyId}&destinationSkyId=${params.destinationSkyId}&originEntityId=${params.originEntityId}&destinationEntityId=${params.destinationEntityId}&date=${params.date}&cabinClass=economy&adults=${params.adults}&sortBy=best&currency=USD&market=en-US&countryCode=US`
+      const get_params = `?originSkyId=${params.originSkyId}&destinationSkyId=${params.destinationSkyId}&originEntityId=${params.originEntityId}&destinationEntityId=${params.destinationEntityId}&date=${params.date}&cabinClass=economy&adults=${params.adults}&sortBy=best&currency=USD&market=en-US&countryCode=US`
       const response = await fetch(`${API_BASE_URL}/searchFlights${get_params}`,
         { headers })
       //   method: 'GET',
@@ -83,7 +77,7 @@ export const flightService = {
       //   body: JSON.stringify(params),
       // });
 
-      if (!response.ok) {
+      if ( ! response.ok) {
         throw new Error('Failed to search flights');
       }
 
@@ -95,10 +89,9 @@ export const flightService = {
   },
 
 
-
   async getCurrentLocation(): Promise<GeolocationPosition> {
     return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
+      if ( ! navigator.geolocation) {
         reject(new Error('Geolocation is not supported by your browser'));
       } else {
         navigator.geolocation.getCurrentPosition(resolve, reject);
