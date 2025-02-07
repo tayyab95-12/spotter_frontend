@@ -35,3 +35,40 @@ export interface FlightSearchParams {
   cabinClass?: string;
   sortBy?: string;
 }
+
+
+export interface FlightResult {
+  id: string;
+  price: {
+    raw: number;
+    formatted: string;
+  };
+  legs: {
+    id: string;
+    origin: {
+      id: string;
+      name: string;
+      displayCode: string;
+      city: string;
+      country: string;
+    };
+    destination: {
+      id: string;
+      name: string;
+      displayCode: string;
+      city: string;
+      country: string;
+    };
+    durationInMinutes: number;
+    stopCount: number;
+    departure: string;
+    arrival: string;
+    carriers: {
+      marketing: Array<{
+        id: number;
+        name: string;
+        logoUrl: string;
+      }>;
+    };
+  }[];
+}

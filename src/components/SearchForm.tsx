@@ -48,7 +48,6 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
             entityId: airport.navigation.relevantFlightParams.entityId,
             presentation: {
               title: airport.presentation.title,
-              // suggestionTitle: `${airport.presentation.title} (${airport.navigation.relevantFlightParams.skyId})`,
               suggestionTitle: `${airport.presentation.title}`,
               subtitle: airport.presentation.subtitle
             }
@@ -62,7 +61,6 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
         }
       }
     };
-  
     getNearbyAirports();
   }, [originQuery]); 
 
@@ -82,7 +80,6 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
   }, [destinationQuery]);
 
   const handleOriginSelect = (airport: Airport) => {
-    console.log("Here is the HANDLERRR origin airport airport  ABC  :::::::::::         ",airport);
     setOriginAirport(airport);
     setOriginQuery(airport.presentation.title);
     setShowOriginSuggestions(false);
@@ -95,84 +92,11 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("Here is the handleSubmit  ABC  :::::::::::         ",originAirport);
     e.preventDefault();
     if (!originAirport || !destinationAirport || !date) {
-    // if (!destinationAirport || !date) {
       alert('Please fill in all required fields');
       return;
     }
-    // if (!originAirport) {
-    //   try {
-    //     setIsLoadingNearby(true);
-    //     const nearbyAirports = await flightService.getNearbyAirportsFromCurrentLocation();
-    //     // console.log("Here is the nearbyAirports  XYZ  :::::::::::       ",nearbyAirports);
-    //     if (nearbyAirports && nearbyAirports.length > 0) {
-    //       const nearestAirport = nearbyAirports[0];
-    //       console.log("Get fields one by one :::::::::::       ",nearestAirport);
-    //     //   const newAirport = {
-    //     //     "skyId": nearestAirport.skyId,
-    //     //     "entityId":nearestAirport.entityId,
-    //     //     "presentation":{
-    //     //        "title":nearestAirport.presentation.title,
-    //     //        "suggestionTitle":nearestAirport.presentation.title,
-    //     //        "subtitle":nearestAirport.presentation.subtitle
-    //     //     },
-    //     //     "navigation":{
-    //     //        "entityId":nearestAirport.entityId,
-    //     //        "entityType":"CITY",
-    //     //        "localizedName":nearestAirport.presentation.title,
-    //     //        "relevantFlightParams":{
-    //     //           "skyId":nearestAirport.skyId,
-    //     //           "entityId":nearestAirport.entityId,
-    //     //           "flightPlaceType":"CITY",
-    //     //           "localizedName":nearestAirport.presentation.title
-    //     //        },
-    //     //        "relevantHotelParams":{
-    //     //           "entityId":nearestAirport.entityId,
-    //     //           "entityType":"CITY",
-    //     //           "localizedName":nearestAirport.presentation.title
-    //     //        }
-    //     //     }
-    //     //  }
-
-    //     const newAirport = {
-    //       skyId: nearestAirport.navigation.relevantFlightParams.skyId,
-    //       entityId: nearestAirport.navigation.relevantFlightParams.entityId,
-    //       presentation: {
-    //         title: nearestAirport.presentation.title,
-    //         suggestionTitle: nearestAirport.presentation.title,
-    //         subtitle: nearestAirport.presentation.subtitle,
-    //       },
-    //     };
-    //       // setOriginAirport(newAirport);
-    //       // setOriginQuery(nearestAirport.presentation.subtitle);
-    //       console.log("Here is the newAirport  XYZ  :::::::::::       ",newAirport);
-    //       // handleOriginSelect(newAirport);
-    //       setOriginSuggestions
-    //     } else {
-    //       alert('No nearby airports found. Please enter origin city manually.');
-    //       return;
-    //     }
-    //   } catch (error) {
-    //     console.error('Error getting nearby airports:', error);
-    //     alert('Unable to get nearby airports. Please enter origin city manually.');
-    //     return;
-    //   } finally {
-    //     setIsLoadingNearby(false);
-    //   }
-      
-    //   // const params: FlightSearchParams = {
-    //   //   originSkyId: originAirport?.skyId || '',
-    //   //   destinationSkyId: destinationAirport?.skyId,
-    //   //   originEntityId: originAirport?.entityId || '',
-    //   //   destinationEntityId: destinationAirport?.entityId,
-    //   //   date,
-    //   //   adults: passengers,
-    //   // };
-    //   // onSearch(params);
-    // }
-    // else {
       const params: FlightSearchParams = {
         originSkyId: originAirport?.skyId || '',
         destinationSkyId: destinationAirport?.skyId,
@@ -182,7 +106,6 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
         adults: passengers,
       };
 
-      console.log("Here is the originAirport ********************** :::::::::::       ",originAirport);
       onSearch(params);
     // }
   };

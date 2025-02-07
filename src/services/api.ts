@@ -11,11 +11,8 @@ const headers = {
 export const flightService = {
   async searchAirports(query: string): Promise<Airport[]> {
     try {
-      console.log("Here is the query of searchAirports    :::::::::::         ", query);
       const response = await fetch(
-        // `${API_BASE_URL}/searchAirport?query=&locale=en-US`,
         `${API_BASE_URL}/searchAirport?query=${encodeURIComponent(query)}&locale=en-US`,
-        // `${API_BASE_URL}/searchAirport?query=${query}&locale=en-US`,
         { headers }
       );
 
@@ -46,16 +43,12 @@ export const flightService = {
 
   async getNearbyAirports(lat: number, lng: number): Promise<Airport[]> {
     try {
-      // lat = 19.242218017578125
-      // lng = 72.85846156046128
       const response = await fetch(
         `${API_BASE_URL}/getNearByAirports?lat=${lat}&lng=${lng}&locale=en-US`,
         { headers }
       );
-      console.log("Here is the Nearby Airports    ::::", response);
-      // console.log("Here is the Nearby Airports  JSON  ::::", response.json());
       if ( ! response.ok) {
-        throw new Error('Failed to fetch nearby airports');
+        console.error('Failed to fetch nearby airports');
       }
 
       const data = await response.json();
@@ -68,17 +61,12 @@ export const flightService = {
 
   async searchFlights(params: FlightSearchParams): Promise<any> {
     try {
-      // params.originSkyId
       const get_params = `?originSkyId=${params.originSkyId}&destinationSkyId=${params.destinationSkyId}&originEntityId=${params.originEntityId}&destinationEntityId=${params.destinationEntityId}&date=${params.date}&cabinClass=economy&adults=${params.adults}&sortBy=best&currency=USD&market=en-US&countryCode=US`
       const response = await fetch(`${API_BASE_URL}/searchFlights${get_params}`,
         { headers })
-      //   method: 'GET',
-      //   headers,
-      //   body: JSON.stringify(params),
-      // });
 
       if ( ! response.ok) {
-        throw new Error('Failed to search flights');
+        console.error('Failed to search flights');
       }
 
       return await response.json();

@@ -1,44 +1,9 @@
 import React, { useState } from 'react';
 import { Plane } from 'lucide-react';
 import SearchForm from './components/SearchForm';
-import { FlightSearchParams } from './types';
+import { FlightResult, FlightSearchParams } from './types';
 import { flightService } from './services/api';
 
-interface FlightResult {
-  id: string;
-  price: {
-    raw: number;
-    formatted: string;
-  };
-  legs: {
-    id: string;
-    origin: {
-      id: string;
-      name: string;
-      displayCode: string;
-      city: string;
-      country: string;
-    };
-    destination: {
-      id: string;
-      name: string;
-      displayCode: string;
-      city: string;
-      country: string;
-    };
-    durationInMinutes: number;
-    stopCount: number;
-    departure: string;
-    arrival: string;
-    carriers: {
-      marketing: Array<{
-        id: number;
-        name: string;
-        logoUrl: string;
-      }>;
-    };
-  }[];
-}
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
